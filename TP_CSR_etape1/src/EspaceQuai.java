@@ -62,14 +62,27 @@ public class EspaceQuai {
 	
 	public synchronized void monterDansTrain(Voyageur v)
 	{	
-		//TODO FINIR HERE
-			// (what's missing ?)
-		for(int i=0; i< this.trains_en_gare.size(); i++)
+		//Boucle infinie pour recommencer au début
+		while(true)
 		{
-			if(this.trains_en_gare.get(i).getPlacesLibres()>0){
-				this.trains_en_gare.get(i).voyageurMonte(v);
-				return;
+			//Pour chaque train en gare
+			for(int i=0; i< this.trains_en_gare.size(); i++) //On ne rentre même pas dans la boucle s'il n'y en a pas
+			{
+				//On regarde s'il reste des places libres
+				if(this.trains_en_gare.get(i).getPlacesLibres()>0){
+					this.trains_en_gare.get(i).voyageurMonte(v);
+					return;
+				}
 			}
+			
+			//Sinon, on attend qu'un autre train arrive
+			while(this.voies_occupees==EspaceQuai.NB_VOIES)
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			
 		}
 	}
 	
