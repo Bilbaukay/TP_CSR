@@ -16,12 +16,7 @@ public class Voyageur extends Thread {
 	public void run()
 	{
 		// Le voyageur achète un billet
-		for(int i=0; i<ev.getGuichets().size(); i++)
-		{
-			if(ev.getGuichets().get(i).getBusy() == false)
-				this.ev.getGuichets().get(i).vendreTicket();
-			return;
-		}
+		this.ev.getGuichet().vendreTicket();
 		
 		// Le voyageur monte dans le train
 		this.eq.monterDansTrain(this);

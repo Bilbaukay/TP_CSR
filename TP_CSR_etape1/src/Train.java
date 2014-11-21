@@ -15,10 +15,6 @@ public class Train extends Thread {
 	
 	private int places_libres;
 	
-	private int places_vendues;
-	
-	private int voyageurs_a_bord=0;
-	
 	private int idTrain;
 		
 	public Train(int id, Gare destination)
@@ -45,22 +41,6 @@ public class Train extends Thread {
 			Thread.sleep(ARRET_TRAIN);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-		
-		// La vente de tickets est stoppée
-			// nombreTicketsVente =0
-		
-		// Le train attend que tous les voyageurs munis d'un billet soient à bord
-		while(this.voyageurs_a_bord < this.places_vendues)
-		{
-			try {
-				this.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			// (un truc du genre)
-				// if this.destination.eq.monterDansTrain
-				// this.voyageurs_a_bord++
 		}
 		
 		// Le train quitte la gare
@@ -91,21 +71,6 @@ public class Train extends Thread {
 	public int getPlacesLibres()
 	{
 		return this.places_libres;
-	}
-	
-	public void increasePlacesVendues()
-	{
-		this.places_vendues++;
-	}
-	
-	public int getPlacesVendues()
-	{
-		return this.places_vendues;
-	}
-	
-	public void decreasePlacesLibres()
-	{
-		this.places_libres--;
 	}
 	
 	public void initPlacesLibres()

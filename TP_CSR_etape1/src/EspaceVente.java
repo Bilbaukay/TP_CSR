@@ -3,17 +3,17 @@ import java.util.ArrayList;
 
 public class EspaceVente {
 	
-	private ArrayList<Guichet> guichets;
+	private Guichet guichet;
 	
-	public ArrayList<Guichet> getGuichets()
+	public Guichet getGuichet()
 	{
-		return this.guichets;
+		return this.guichet;
 	}
 	
 	public EspaceVente()
 	{
 		//Coucou
-		this.guichets = new ArrayList<Guichet>();
+		this.guichet = new Guichet();
 	}
 
 }

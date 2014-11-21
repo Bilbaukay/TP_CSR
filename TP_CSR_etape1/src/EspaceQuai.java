@@ -6,24 +6,11 @@ public class EspaceQuai {
 	
 	private ArrayList<Train> trains_en_gare;
 	
-	// Hashtable pour stocker le nombre de places libres respectif de chaque train en fonction de leur id
-	private Hashtable allPlacesLibres = new Hashtable();
-	// LOL
-
 	static final int NB_VOIES = 10;
 	
 	private int voies_occupees;
 	
 	private Gare gare;
-	
-	// Parcours de la table allPlacesLibres pour obtenir la somme des places libres dans tous les trains, somme qui correspond au nombre de tickets mis en vente
-	public int getNombreTicketsVente()
-	{
-		int c=0;
-		for(int i=0; i<this.allPlacesLibres.size(); i++)
-			c+=(int)this.allPlacesLibres.get(i);
-		return c;
-	}
 	
 	public EspaceQuai(Gare gare)
 	{
@@ -34,12 +21,7 @@ public class EspaceQuai {
 	{
 		return this.trains_en_gare;
 	}
-	
-	public Hashtable getPlacesLibres()
-	{
-		return this.allPlacesLibres;
-	}
-	
+		
 	public synchronized void arriverEnGare(Train t)
 	{
 		while(voies_occupees==NB_VOIES)
