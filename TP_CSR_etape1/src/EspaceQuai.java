@@ -8,6 +8,7 @@ public class EspaceQuai {
 	
 	// Hashtable pour stocker le nombre de places libres respectif de chaque train en fonction de leur id
 	private Hashtable allPlacesLibres = new Hashtable();
+	// LOL
 
 	static final int NB_VOIES = 10;
 	
