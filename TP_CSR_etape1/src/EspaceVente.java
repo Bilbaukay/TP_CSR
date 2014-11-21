@@ -12,6 +12,7 @@ public class EspaceVente {
 	
 	public EspaceVente()
 	{
+		//Coucou
 		this.guichets = new ArrayList<Guichet>();
 	}
 
