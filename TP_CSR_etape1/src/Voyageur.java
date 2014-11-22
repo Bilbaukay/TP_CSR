@@ -1,25 +1,30 @@
 
 public class Voyageur extends Thread {
 
-	private EspaceVente ev;
-	private EspaceQuai eq;
+	private Gare gare;
 	
 	private int voyageurId;
 	
-	public Voyageur(EspaceVente ev, EspaceQuai eq, int voyageurId)
+	public Voyageur(Gare gare, int voyageurId)
 	{
-		this.eq = eq;
-		this.ev = ev;
+		this.gare = gare;
 		this.voyageurId = voyageurId;
 	}
 	
 	public void run()
 	{
 		// Le voyageur achÃ¨te un billet
-		this.ev.getGuichet().vendreTicket();
+		System.out.println("Voyageur "+this.voyageurId+" achète son ticket");
+		this.gare.getEv().getGuichet().vendreTicket();
 		
+		System.out.println("Voyageur "+this.voyageurId+" attend un train");
 		// Le voyageur monte dans le train
-		this.eq.monterDansTrain(this);
+		this.gare.getEq().monterDansTrain(this);
+	}
+	
+	public int getVoyageurId()
+	{
+		return this.voyageurId;
 	}
 	
 }

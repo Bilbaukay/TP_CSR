@@ -9,7 +9,7 @@ public class Train extends Thread {
 	
 	private static final int ARRET_TRAIN=5000;
 	
-	private static final int CAPACITE_TRAIN=300;
+	private static final int CAPACITE_TRAIN=8;
 	
 	private Gare destination;
 	
@@ -17,15 +17,17 @@ public class Train extends Thread {
 	
 	private int idTrain;
 		
-	public Train(int id, Gare destination)
+	public Train(Gare destination, int id)
 	{
 		this.idTrain = id;
 		this.destination = destination;
+		this.initPlacesLibres();
+		this.voyageurs = new ArrayList<Voyageur>();
 	}
 	
 	public void run()
 	{
-		
+		System.out.println("Train "+this.idTrain+" en route vers la gare avec "+this.places_libres+" places libres");
 		// Temps qu'il faut au train pour arriver en gare
 		try {
 			Thread.sleep(10000/VITESSE_TRAIN);
@@ -33,8 +35,11 @@ public class Train extends Thread {
 			e.printStackTrace();
 		}
 		
+		System.out.println("Train "+this.idTrain+" arrivé, en attente pour se garer");
 		// Le train cherche Ã  se garer sur une voie libre
 		this.arriverEnGare();
+		
+		System.out.println(("Train "+this.idTrain+" garé ! Arrêt momentané."));
 		
 		// Le train attend les voyageurs
 		try {
@@ -45,6 +50,8 @@ public class Train extends Thread {
 		
 		// Le train quitte la gare
 		this.quitterGare();
+		System.out.println("Train "+this.idTrain+" en partance de la gare avec "+this.voyageurs.size()+" voyageurs à bord");
+		
 		
 		this.destination = null;
 		
@@ -53,6 +60,7 @@ public class Train extends Thread {
 	
 	private void quitterGare()
 	{
+		System.out.println("coucou");
 		this.destination.getEq().quitterGare(this);
 	}
 	
@@ -66,6 +74,7 @@ public class Train extends Thread {
 	{
 		this.voyageurs.add(v);
 		this.places_libres--;
+		System.out.println("Voyageur "+v.getVoyageurId()+" monté dans le train "+this.idTrain);
 	}
 	
 	public int getPlacesLibres()

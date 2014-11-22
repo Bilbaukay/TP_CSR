@@ -6,7 +6,7 @@ public class EspaceQuai {
 	
 	private ArrayList<Train> trains_en_gare;
 	
-	static final int NB_VOIES = 10;
+	static final int NB_VOIES = 2;
 	
 	private int voies_occupees;
 	
@@ -15,6 +15,7 @@ public class EspaceQuai {
 	public EspaceQuai(Gare gare)
 	{
 		this.gare = gare;
+		this.trains_en_gare = new ArrayList<Train>();
 	}
 	
 	public ArrayList<Train> getTrainsGare()
@@ -33,14 +34,17 @@ public class EspaceQuai {
 		
 		this.voies_occupees++;
 		this.trains_en_gare.add(t);
-		this.notify();
+		this.notifyAll();
 	}
 	
 	public synchronized void quitterGare(Train t)
 	{
+		System.out.println("coucoubis");
 		this.voies_occupees--;
 		this.trains_en_gare.remove(t);
+		System.out.println("coucouter");
 		this.notify();
+		System.out.println("coucouquad");
 	}
 	
 	public synchronized void monterDansTrain(Voyageur v)
