@@ -60,7 +60,6 @@ public class Train extends Thread {
 	
 	private void quitterGare()
 	{
-		System.out.println("coucou");
 		this.destination.getEq().quitterGare(this);
 	}
 	
