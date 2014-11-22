@@ -84,7 +84,6 @@ public class Train extends Thread {
 	public void initPlacesLibres()
 	{
 		this.places_libres = (int)(Math.random()*CAPACITE_TRAIN);
-		System.out.println(this.places_libres);
 	}
 	
 	

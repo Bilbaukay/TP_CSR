@@ -11,7 +11,6 @@ public class EspaceVente {
 	
 	public EspaceVente(Gare gare)
 	{
-		//Coucou
 		this.gare = gare;
 		this.guichet = new Guichet();
 	}

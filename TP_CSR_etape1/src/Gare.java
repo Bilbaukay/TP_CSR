@@ -3,7 +3,7 @@ public class Gare extends Thread {
 
 	static final int NB_TRAINS=3;
 	
-	static final int NB_VOYAGEURS=20;
+	static final int NB_VOYAGEURS=6;
 	
 	private EspaceQuai eq;
 	

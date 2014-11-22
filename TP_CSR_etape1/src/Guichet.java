@@ -1,7 +1,7 @@
 
 public class Guichet {
 
-	private static final int IMPRESSION_TICKET=100;
+	private static final int IMPRESSION_TICKET=500;
 	
 	private EspaceQuai eq;
 	

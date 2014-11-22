@@ -48,7 +48,7 @@ public class EspaceQuai {
 	{	
 		Train t = this.getTrainFree();
 		
-		while(t == null && this.voies_occupees > 0)
+		while(t == null)
 		{
 			try {
 				this.wait();
@@ -59,10 +59,7 @@ public class EspaceQuai {
 			t = this.getTrainFree();
 		}
 		
-		if(this.voies_occupees == 0)
-			System.out.println("Le voyageur "+v.getVoyageurId()+" n'a pas eu de train !");
-		else	
-			t.voyageurMonte(v);
+		t.voyageurMonte(v);
 	}
 	
 	public synchronized Train getTrainFree()
