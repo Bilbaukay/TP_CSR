@@ -1,43 +1,43 @@
 
 public class Guichet {
 
-	private static final int IMPRESSION_TICKET=100;
+	private static final int IMPRESSION_TICKET=3000;
 	
-	private boolean busy = false;
+	private int id;	
 	
-	private EspaceQuai eq;
+	private Gare gare;
 	
-	private int nbrTickets = this.eq.getNombreTicketsVente();
-		
-	public boolean getBusy()
+	public Guichet(int id, Gare gare)
 	{
-		return this.busy;
+		this.id = id;
+		this.gare = gare;
 	}
 	
-	public synchronized void vendreTicket()
+	public int getId()
 	{
-		if(this.nbrTickets > 0)
-		{
-			this.busy = true;
-				try {
-					Thread.sleep(IMPRESSION_TICKET);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			this.busy = false;
-			this.nbrTickets--;
-			for(int i=0; i<this.eq.getTrainsGare().size(); i++)
-			{
-				if(this.eq.getTrainsGare().get(i).getPlacesVendues() < this.eq.getTrainsGare().get(i).getPlacesLibres())
-				{
-					this.eq.getTrainsGare().get(i).increasePlacesVendues();
-					this.eq.getTrainsGare().get(i).decreasePlacesLibres();
-					return;
-				}
-			}
+		return this.id;
+	}
+
+	public synchronized Ticket getTrainTicket(Voyageur voyageur)
+	{
+		Train train = this.gare.getEq().reserverTrain();
 		
+		System.out.println("Impression du ticket du voyageur "+voyageur.getVoyageurId()+" pour le train "+train.getIdTrain()+" en cours");
+		
+		this.imprimerTicket();
+		
+		this.gare.getEv().freeGuichet(this);
+		
+		return new Ticket(train, voyageur);
+	}
+	
+	public void imprimerTicket()
+	{
+		try {
+			Thread.sleep(IMPRESSION_TICKET);
+		} catch (InterruptedException e) {
+				e.printStackTrace();
 		}
-	}
-	
-	
+			
+	}	
 }

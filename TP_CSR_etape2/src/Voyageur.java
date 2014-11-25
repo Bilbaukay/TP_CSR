@@ -1,30 +1,31 @@
+import java.util.ArrayList;
+
 
 public class Voyageur extends Thread {
 
-	private EspaceVente ev;
-	private EspaceQuai eq;
+	private Gare gare;
 	
 	private int voyageurId;
 	
-	public Voyageur(EspaceVente ev, EspaceQuai eq, int voyageurId)
+	public Voyageur(Gare gare, int voyageurId)
 	{
-		this.eq = eq;
-		this.ev = ev;
+		this.gare = gare;
 		this.voyageurId = voyageurId;
 	}
 	
 	public void run()
-	{
-		// Le voyageur ach√®te un billet
-		for(int i=0; i<ev.getGuichets().size(); i++)
-		{
-			if(ev.getGuichets().get(i).getBusy() == false)
-				this.ev.getGuichets().get(i).vendreTicket();
-			return;
-		}
+	{	
+		// Le voyageur rÈserve un guichet et y achËte son ticket
+		Ticket ticket = this.gare.getEv().reserverGuichet().getTrainTicket(this);
+		System.out.println("Le voyageur "+this.voyageurId+" a achetÈ son ticket pour le train "+ticket.getTrain().getIdTrain());
 		
-		// Le voyageur monte dans le train
-		this.eq.monterDansTrain(this);
+		// Enfin il monte dans le train
+		ticket.getTrain().voyageurMonte(this);
+	}
+	
+	public int getVoyageurId()
+	{
+		return this.voyageurId;
 	}
 	
 }

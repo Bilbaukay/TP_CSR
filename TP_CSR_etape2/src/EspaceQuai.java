@@ -6,37 +6,29 @@ public class EspaceQuai {
 	
 	private ArrayList<Train> trains_en_gare;
 	
-	// Hashtable pour stocker le nombre de places libres respectif de chaque train en fonction de leur id
-	private Hashtable allPlacesLibres = new Hashtable();
+	private ArrayList<Voyageur> voyageurs_a_quai;
 
-	static final int NB_VOIES = 10;
+	static final int NB_VOIES = 2;
 	
 	private int voies_occupees;
 	
 	private Gare gare;
 	
-	// Parcours de la table allPlacesLibres pour obtenir la somme des places libres dans tous les trains, somme qui correspond au nombre de tickets mis en vente
-	public int getNombreTicketsVente()
-	{
-		int c=0;
-		for(int i=0; i<this.allPlacesLibres.size(); i++)
-			c+=(int)this.allPlacesLibres.get(i);
-		return c;
-	}
-	
 	public EspaceQuai(Gare gare)
 	{
+		this.trains_en_gare = new ArrayList<Train>();
+		this.voyageurs_a_quai = new ArrayList<Voyageur>();
 		this.gare = gare;
 	}
 	
-	public ArrayList<Train> getTrainsGare()
+	public void addVoyageurAQuai(Voyageur v)
 	{
-		return this.trains_en_gare;
+		this.voyageurs_a_quai.add(v);
 	}
 	
-	public Hashtable getPlacesLibres()
+	public synchronized ArrayList<Train> getTrainsGare()
 	{
-		return this.allPlacesLibres;
+		return this.trains_en_gare;
 	}
 	
 	public synchronized void arriverEnGare(Train t)
@@ -50,27 +42,54 @@ public class EspaceQuai {
 		
 		this.voies_occupees++;
 		this.trains_en_gare.add(t);
-		this.notify();
+		this.notifyAll();
 	}
 	
-	public synchronized void quitterGare(Train t)
+	public synchronized boolean quitterGare(Train t)
 	{
+		//Si on a oublié un voyageur sur l'espace quai, impossible de quitter la gare
+		if(!t.verifierVoyageur()){
+			System.out.println("Oups ! Il y a encore un voyageur du train "+t.getIdTrain()+" sur le quai ! En attente.");
+			return false;
+		}
+		
+		//Sinon, tout va bien
 		this.voies_occupees--;
 		this.trains_en_gare.remove(t);
-		this.notify();
+		this.notifyAll();
+		return true;
 	}
 	
-	public synchronized void monterDansTrain(Voyageur v)
+	public synchronized Train reserverTrain()
 	{	
-		//TODO FINIR HERE
-			// (what's missing ?)
-		for(int i=0; i< this.trains_en_gare.size(); i++)
+		Train t = this.getTrainFree();
+		
+		while(t == null)
 		{
-			if(this.trains_en_gare.get(i).getPlacesLibres()>0){
-				this.trains_en_gare.get(i).voyageurMonte(v);
-				return;
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+			
 			}
+			
+			t = this.getTrainFree();
 		}
+		
+		t.increasePlacesVendues();
+		t.decreasePlacesLibres();
+		
+		return t;
+	}
+	
+	public synchronized Train getTrainFree()
+	{
+		//Pour chaque train en gare
+		for(int i=0; i< this.trains_en_gare.size(); i++) //On ne rentre même pas dans la boucle s'il n'y en a pas
+			//On regarde s'il reste des places libres
+			if(this.trains_en_gare.get(i).getPlacesLibres()>0)
+				return this.trains_en_gare.get(i);
+		
+		return null;
 	}
 	
 }
