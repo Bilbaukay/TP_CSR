@@ -1,3 +1,5 @@
+import serveur.ServeurBilleterie;
+
 
 public class Gare extends Thread {
 
@@ -8,32 +10,44 @@ public class Gare extends Thread {
 	private EspaceQuai eq;
 	
 	private EspaceVente ev;
+	
+	private ServeurBilleterie servBill = null;
+	
+	private char idGare;
 
-	public Gare()
+	public Gare(char id)
 	{
+		this.idGare = id;
 		this.eq = new EspaceQuai(this);
 		this.ev = new EspaceVente(this);
 	}
 	
 	public void run()
 	{
-		for(int i=0; i<Gare.NB_VOYAGEURS;i++)
-		{
-			Voyageur v = new Voyageur(this, i);
-			this.eq.addVoyageurAQuai(v);
-			v.start();
-		}
-		
-		for(int j=0; j<Gare.NB_TRAINS;j++)
-			new Train(this, j).start();
+
 	}
 	
 	public EspaceQuai getEq() {
-		return eq;
+		return this.eq;
 	}
 
 	public EspaceVente getEv() {
-		return ev;
+		return this.ev;
+	}
+	
+	public char getIdGare()
+	{
+		return this.idGare;
+	}
+	
+	public ServeurBilleterie getServeurBilleterie()
+	{
+		return this.servBill;
+	}
+	
+	public void setServeurBilleterie(ServeurBilleterie sb)
+	{
+		this.servBill = sb;
 	}
 
 }
