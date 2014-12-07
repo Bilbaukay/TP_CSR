@@ -1,4 +1,7 @@
-package serveur.resources;
+package main.serveur.resources;
+
+import main.serveur.objects.Trajet;
+import main.serveur.objects.TrajetList;
 
 import org.json.JSONObject;
 import org.restlet.ext.json.JsonRepresentation;
@@ -6,9 +9,6 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
-
-import serveur.objects.Trajet;
-import serveur.objects.TrajetList;
 
 
 public class TrajetListResource extends ServerResource {
@@ -22,7 +22,6 @@ public class TrajetListResource extends ServerResource {
 	@Post("json")
 	public Representation addPlacesToTrajet(Representation rq)
 	{
-		System.out.println(rq);
 		
 		try {
 			//On récupère un objet json à partir de la requête

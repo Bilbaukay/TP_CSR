@@ -1,7 +1,9 @@
-package client;
+package main.client;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+
+import main.ReservationSystem;
 
 
 public class EspaceVente {
@@ -9,8 +11,6 @@ public class EspaceVente {
 	private HashMap<Guichet, Boolean> guichets;
 	
 	private Gare gare;
-	
-	private ReservationSystem rs;
 	
 	public static final int NOMBRE_GUICHETS = 3;
 	
@@ -62,14 +62,14 @@ public class EspaceVente {
 	
 	public synchronized void freeGuichet(Guichet guichet)
 	{
-		System.out.println("Le guichet "+guichet.getId()+" est libéré.");
+		System.out.println("Le guichet "+guichet.getId()+" de la gare "+this.gare.getIdGare()+" est libéré.");
 		this.guichets.put(guichet, false);
 		this.notify();
 	}
 	
 	public synchronized void busyGuichet(Guichet guichet)
 	{
-		System.out.println("Le guichet "+guichet.getId()+" est occupé.");
+		System.out.println("Le guichet "+guichet.getId()+" de la gare "+this.gare.getIdGare()+" est occupé.");
 		this.guichets.put(guichet, true);
 	}
 

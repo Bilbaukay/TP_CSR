@@ -1,4 +1,4 @@
-package client;
+package main.client;
 import java.util.ArrayList;
 
 
@@ -12,6 +12,8 @@ public class Train extends Thread {
 	
 	private static final int CAPACITE_TRAIN=8;
 	
+	private Gare arrivee;
+	
 	private Gare destination;
 	
 	private int places_libres;
@@ -20,9 +22,10 @@ public class Train extends Thread {
 	
 	private int idTrain;
 		
-	public Train(Gare destination, int id)
+	public Train(Gare arrivee, Gare destination, int id)
 	{
 		this.idTrain = id;
+		this.arrivee = arrivee;
 		this.destination = destination;
 		this.initPlacesLibres();
 		this.voyageurs = new ArrayList<Voyageur>();
@@ -31,7 +34,7 @@ public class Train extends Thread {
 	
 	public void run()
 	{
-		System.out.println("Train "+this.idTrain+" en route vers la gare avec "+this.places_libres+" places libres");
+		System.out.println("Train "+this.idTrain+" en route vers la gare "+this.arrivee.getIdGare()+" avec "+this.places_libres+" places libres à destination de la gare "+this.destination.getIdGare());
 		// Temps qu'il faut au train pour arriver en gare
 		try {
 			Thread.sleep(10000/VITESSE_TRAIN);
@@ -39,11 +42,11 @@ public class Train extends Thread {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Train "+this.idTrain+" arrivé, en attente pour se garer");
+		System.out.println("Train "+this.idTrain+" arrivé en gare "+this.arrivee.getIdGare()+", en attente pour se garer");
 		// Le train cherche Ã  se garer sur une voie libre
 		this.arriverEnGare();
 		
-		System.out.println(("Train "+this.idTrain+" garé ! Arrêt momentané."));
+		System.out.println(("Train "+this.idTrain+" garé en gare "+this.arrivee.getIdGare()+" ! Arrêt momentané."));
 		
 		// Le train attend les voyageurs
 		try {
@@ -58,7 +61,7 @@ public class Train extends Thread {
 		
 		// Le train quitte la gare
 		this.quitterGare();
-		System.out.println("Train "+this.idTrain+" en partance de la gare avec "+this.voyageurs.size()+" voyageurs à bord");
+		System.out.println("Train "+this.idTrain+" en partance de la gare "+this.arrivee.getIdGare()+" avec "+this.voyageurs.size()+" voyageurs à bord, destination : "+this.destination.getIdGare());
 		
 		this.destination = null;
 		
@@ -73,12 +76,23 @@ public class Train extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		
+		this.notifyAll();
 	}
 	
 	
-	private void arriverEnGare()
+	private synchronized void arriverEnGare()
 	{
-		this.destination.getEq().arriverEnGare(this);
+		while(!this.arrivee.getEq().arriverEnGare(this))
+		{
+			
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public synchronized void voyageurMonte(Voyageur v)
@@ -124,6 +138,16 @@ public class Train extends Thread {
 	public void SetDestination(Gare g)
 	{
 		this.destination = g;
+	}
+	
+	public Gare getDestination()
+	{
+		return this.destination;
+	}
+	
+	public Gare getArrivee()
+	{
+		return this.arrivee;
 	}
 
 	public int getIdTrain() {

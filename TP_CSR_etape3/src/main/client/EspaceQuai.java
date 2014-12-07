@@ -1,4 +1,4 @@
-package client;
+package main.client;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -32,18 +32,17 @@ public class EspaceQuai {
 		return this.trains_en_gare;
 	}
 	
-	public synchronized void arriverEnGare(Train t)
+	public synchronized boolean arriverEnGare(Train t)
 	{
-		while(voies_occupees==NB_VOIES)
-			try {
-				this.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		
+		if(voies_occupees==NB_VOIES)
+			return false;
+			
 		this.voies_occupees++;
 		this.trains_en_gare.add(t);
+		this.gare.getReservationSystem().ajouterTrajet(t);
 		this.notifyAll();
+		
+		return true;
 	}
 	
 	public synchronized boolean quitterGare(Train t)
@@ -57,13 +56,12 @@ public class EspaceQuai {
 		//Sinon, tout va bien
 		this.voies_occupees--;
 		this.trains_en_gare.remove(t);
-		this.notifyAll();
 		return true;
 	}
 	
-	public synchronized Train reserverTrain()
+	public synchronized Train reserverTrain(Gare destination)
 	{	
-		Train t = this.getTrainFree();
+		Train t = this.getTrainFree(destination);
 		
 		while(t == null)
 		{
@@ -73,7 +71,7 @@ public class EspaceQuai {
 			
 			}
 			
-			t = this.getTrainFree();
+			t = this.getTrainFree(destination);
 		}
 		
 		t.increasePlacesVendues();
@@ -82,12 +80,13 @@ public class EspaceQuai {
 		return t;
 	}
 	
-	public synchronized Train getTrainFree()
+	public synchronized Train getTrainFree(Gare destination)
 	{
+		
 		//Pour chaque train en gare
 		for(int i=0; i< this.trains_en_gare.size(); i++) //On ne rentre même pas dans la boucle s'il n'y en a pas
 			//On regarde s'il reste des places libres
-			if(this.trains_en_gare.get(i).getPlacesLibres()>0)
+			if(this.trains_en_gare.get(i).getPlacesLibres()>0 && this.trains_en_gare.get(i).getDestination().getIdGare() == destination.getIdGare())
 				return this.trains_en_gare.get(i);
 		
 		return null;

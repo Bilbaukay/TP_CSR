@@ -1,10 +1,11 @@
+package main;
 import java.util.HashMap;
 
 import org.restlet.resource.ClientResource;
 
 
 public class Connector {
-
+	
 	private String baseURL;
 	
 	private HashMap<String, ClientResource> mapClients;

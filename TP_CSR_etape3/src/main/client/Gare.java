@@ -1,30 +1,24 @@
-package client;
+package main.client;
 
-import org.restlet.Connector;
+import main.ReservationSystem;
 
 
-public class Gare extends Thread {
-	
-	static final int NB_TRAINS=3;
-	
-	static final int NB_VOYAGEURS=6;
+public class Gare  {
 	
 	private EspaceQuai eq;
 	
 	private EspaceVente ev;
 	
 	private char idGare;
+	
+	private ReservationSystem rs;
 
-	public Gare(char id)
+	public Gare(char id, ReservationSystem rs)
 	{
 		this.idGare = id;
+		this.rs = rs;
 		this.eq = new EspaceQuai(this);
 		this.ev = new EspaceVente(this);
-	}
-	
-	public void run()
-	{
-
 	}
 	
 	public EspaceQuai getEq() {
@@ -38,6 +32,11 @@ public class Gare extends Thread {
 	public char getIdGare()
 	{
 		return this.idGare;
+	}
+	
+	public ReservationSystem getReservationSystem()
+	{
+		return this.rs;
 	}
 
 }

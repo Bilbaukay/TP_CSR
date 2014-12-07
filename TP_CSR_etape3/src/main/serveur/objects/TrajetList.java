@@ -1,4 +1,4 @@
-package serveur.objects;
+package main.serveur.objects;
 
 import java.util.ArrayList;
 
@@ -15,9 +15,7 @@ public class TrajetList {
 	}
 	
 	public synchronized static Trajet reserverTrajetByIdGareArrivee(char idGareArrivee)
-	{
-		System.out.println("On veut la gare  "+idGareArrivee);
-		
+	{	
 		for(Trajet t : trajetList)
 			if(t.getIdGareArrivee() == idGareArrivee && t.getNbPlaces() > 0){
 				System.out.println("success");

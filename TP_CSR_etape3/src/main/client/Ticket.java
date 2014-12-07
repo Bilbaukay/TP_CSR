@@ -1,4 +1,4 @@
-package client;
+package main.client;
 
 public class Ticket {
 
@@ -11,12 +11,16 @@ public class Ticket {
 	private Voyageur voyageur;
 	
 	
-	public Ticket(Train train, Voyageur voyageur, Gare gareDepart, Gare gareArrivee)
+	public Ticket(Voyageur voyageur, Gare gareDepart, Gare gareArrivee)
 	{
-		this.train = train;
 		this.voyageur = voyageur;
 		this.gareDepart = gareDepart;
 		this.gareArrivee = gareArrivee;
+	}
+	
+	public void setTrain(Train train)
+	{
+		this.train = train;
 	}
 	
 	public Train getTrain()

@@ -1,12 +1,12 @@
-package serveur;
+package main.serveur;
+import main.serveur.objects.Trajet;
+import main.serveur.objects.TrajetList;
+import main.serveur.resources.TrajetListResource;
+import main.serveur.resources.TrajetResource;
+
 import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;
-
-import serveur.objects.Trajet;
-import serveur.objects.TrajetList;
-import serveur.resources.TrajetListResource;
-import serveur.resources.TrajetResource;
 
 
 
@@ -15,8 +15,6 @@ public class AppBilleterie extends Application {
 	public AppBilleterie()
 	{
 		super();
-		TrajetList.addTrajet(new Trajet('C', 'B', 0));
-		TrajetList.addTrajet(new Trajet('C', 'D', 8));
 	}
 	
 	@Override

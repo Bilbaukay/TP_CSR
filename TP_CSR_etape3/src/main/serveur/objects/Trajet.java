@@ -1,4 +1,4 @@
-package serveur.objects;
+package main.serveur.objects;
 
 import org.json.JSONException;
 import org.json.JSONObject;
