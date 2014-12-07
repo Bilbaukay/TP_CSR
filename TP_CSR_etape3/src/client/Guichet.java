@@ -1,3 +1,4 @@
+package client;
 
 public class Guichet {
 
@@ -20,7 +21,7 @@ public class Guichet {
 
 	public synchronized Ticket getTrainTicket(Voyageur voyageur)
 	{
-		Train train = this.gare.getEq().reserverTrain();
+		Ticket ticket = this.gare.getEv().getReservationSystem()
 		
 		System.out.println("Impression du ticket du voyageur "+voyageur.getVoyageurId()+" pour le train "+train.getIdTrain()+" en cours");
 		
@@ -28,7 +29,7 @@ public class Guichet {
 		
 		this.gare.getEv().freeGuichet(this);
 		
-		return new Ticket(train, voyageur);
+		return ;
 	}
 	
 	public void imprimerTicket()

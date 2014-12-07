@@ -1,3 +1,4 @@
+package client;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -8,6 +9,8 @@ public class EspaceVente {
 	private HashMap<Guichet, Boolean> guichets;
 	
 	private Gare gare;
+	
+	private ReservationSystem rs;
 	
 	public static final int NOMBRE_GUICHETS = 3;
 	

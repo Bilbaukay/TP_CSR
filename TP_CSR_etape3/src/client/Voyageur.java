@@ -1,3 +1,4 @@
+package client;
 import java.util.ArrayList;
 
 
@@ -7,10 +8,13 @@ public class Voyageur extends Thread {
 	
 	private int voyageurId;
 	
-	public Voyageur(Gare gare, int voyageurId)
+	private char gareDestination;
+	
+	public Voyageur(Gare gare, int voyageurId, char gareDestination)
 	{
 		this.gare = gare;
 		this.voyageurId = voyageurId;
+		this.gareDestination = gareDestination;
 	}
 	
 	public void run()
