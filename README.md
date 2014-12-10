@@ -1,7 +1,7 @@
 
 Presentation of WebFML project
 
-=======================================================================
+==============================
 
 
 
@@ -122,13 +122,13 @@ Installation
 
 Copy these plugins (take the latest version) in the “dropins” folder of your Eclipse installation:
 
-.de.ovgu.featureide.core
+* .de.ovgu.featureide.core
 
-.de.ovgu.featureide.fm.core
+* .de.ovgu.featureide.fm.core
 
-.de.ovgu.featureide.fm.ui
+* .de.ovgu.featureide.fm.ui
 
-.de.ovgu.featureide.ui
+* .de.ovgu.featureide.ui
 
 
 ### Scala :
